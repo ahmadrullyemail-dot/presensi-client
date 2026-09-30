@@ -5,7 +5,7 @@ import crypto from 'crypto';
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const backendTarget = env.VITE_API_BASE_URL || 'http://35.224.177.116:3100';
+  const backendTarget = env.VITE_API_BASE_URL || 'http://localhost:3100';
   const appId = env.BACKEND_APP_ID || 'ernmysql-frontend';
   const secret = env.VITE_HMAC_SECRET || env.BACKEND_HMAC_SECRET || 'ernmysql_hmac_secret_dev_2024_change_in_prod';
 
@@ -52,7 +52,7 @@ export default defineConfig(({ mode }) => {
                 headers['Content-Type'] = req.headers['content-type'];
               }
 
-              // 3. Teruskan request ke backend 35.224.177.116:3100
+              // 3. Teruskan request ke backend localhost:3100
               const backendRes = await fetch(targetUrl, {
                 method,
                 headers,
@@ -73,7 +73,7 @@ export default defineConfig(({ mode }) => {
               res.setHeader('Content-Type', 'application/json');
               res.end(
                 JSON.stringify({
-                  error: 'Proxy lokal gagal terhubung ke backend 35.224.177.116:3100: ' + err.message,
+                  error: 'Proxy lokal gagal terhubung ke backend localhost:3100: ' + err.message,
                 })
               );
             }
