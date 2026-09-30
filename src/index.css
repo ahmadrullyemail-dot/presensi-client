@@ -1,0 +1,471 @@
+/* ========================================
+   Global Styles — Form Absensi PertaMC
+   (Preserved 1:1 from original GAS app)
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+/* ---- Utility ---- */
+.disabled-div {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.disabled-card {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ---- Base ---- */
+html {
+  height: 100%;
+}
+
+body {
+  background-color: #f0f2f5;
+  min-height: 100dvh;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  padding-bottom: 0;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: -1;
+}
+
+body.mobile-body {
+  background-image: url('https://drive.google.com/thumbnail?id=1d-lYTHz5e0qhnV0OYsMVc99s7vuXbdJX&sz=w200');
+}
+
+/* ---- Layout ---- */
+.main-container {
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+}
+
+@supports not (height: 100dvh) {
+  .main-container {
+    height: 100vh;
+  }
+}
+
+/* ---- Main Clock ---- */
+.main-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(100dvh - 70px);
+  background-color: transparent;
+  padding: 0.75rem;
+  padding-top: 0;
+  padding-bottom: 4rem;
+  text-align: center;
+}
+
+.main-time-display {
+  font-size: clamp(3rem, 15vw, 6rem);
+  font-weight: bold;
+  font-family: 'Orbitron', sans-serif;
+  color: #333;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.main-date-display {
+  font-size: clamp(1rem, 5vw, 1.5rem);
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.clock-group-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---- Check-In / Check-Out Boxes ---- */
+.check-box {
+  border-radius: 15px;
+  padding: 1rem;
+  text-align: center;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.check-in-btn  { background-color: #28a745; }
+.check-out-btn { background-color: #dc3545; }
+
+.time-display {
+  font-size: clamp(1rem, 6vw, 2rem);
+  font-weight: bold;
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* ---- Card Menu ---- */
+.card-menu {
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.card-menu .icon {
+  font-size: 2.5rem;
+  color: #007bff;
+  margin-bottom: 0.5rem;
+}
+
+.card-menu p {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+/* ---- Bottom Navigation ---- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid #dee2e6;
+  z-index: 1020;
+}
+
+.bottom-nav .row > .col {
+  flex-grow: 1;
+  max-width: none;
+}
+
+.bottom-nav a {
+  color: #6c757d;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  padding: 0.5rem 0.2rem;
+  transition: color 0.2s;
+}
+
+.bottom-nav a.active:not(.center-fab-link) {
+  color: #007bff;
+}
+
+.bottom-nav a .material-icons {
+  font-size: 2.5em;
+}
+
+/* ---- Center FAB Button ---- */
+.center-fab-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background-color: #007bff !important;
+  color: white !important;
+  transform: translateY(-20px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 0 !important;
+  min-width: 65px;
+  flex-grow: 0 !important;
+}
+
+.center-fab-link .material-icons {
+  font-size: 30px !important;
+  margin: 0;
+}
+
+/* ---- Popup Panels ---- */
+.popup-panel {
+  position: fixed;
+  bottom: 70px;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  padding: 1rem;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1010;
+  display: none;
+}
+
+.popup-panel.show {
+  display: block;
+  transform: translateY(0);
+}
+
+/* ---- Scrollable Table ---- */
+.scrollable-table {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* ---- Loading Indicator ---- */
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  color: #007bff;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* ---- Custom Modal ---- */
+.custom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.custom-modal.show {
+  display: flex;
+}
+
+.custom-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 90%;
+  max-width: 350px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: scale(0.8);
+  transition: transform 0.2s ease-out;
+  max-height: 90dvh;
+  overflow-y: auto;
+}
+
+.custom-modal.show .custom-modal-content {
+  transform: scale(1);
+}
+
+.custom-modal-btn-confirm {
+  background-color: #007bff;
+  color: white;
+}
+
+.custom-modal-btn-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* ---- Time Picker ---- */
+.time-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  padding: 0 4px;
+}
+
+.time-picker-input {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  height: 48px;
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 0;
+  padding: 0;
+  color: #1f2937;
+  background-color: #ffffff;
+}
+
+.time-picker-btn {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #4b5563;
+  transition: background-color 0.1s;
+  cursor: pointer;
+}
+
+.time-picker-btn:hover {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.time-column input {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.time-column:first-child .time-picker-input  { border-left: 1px solid #ced4da; }
+.time-column:last-child  .time-picker-input  { border-right: 1px solid #ced4da; }
+
+.time-picker-btn.top-btn    { border-bottom: none; }
+.time-picker-btn.bottom-btn { border-top: none; }
+
+.time-column:first-child .time-picker-btn.top-btn    { border-radius: 6px 0 0 0; }
+.time-column:last-child  .time-picker-btn.top-btn    { border-radius: 0 6px 0 0; }
+.time-column:first-child .time-picker-btn.bottom-btn { border-radius: 0 0 0 6px; }
+.time-column:last-child  .time-picker-btn.bottom-btn { border-radius: 0 0 6px 0; }
+
+#embedded-time-picker,
+#add-time-picker-widget {
+  border: 1px solid #e9ecef;
+  background-color: #ffffff;
+}
+
+/* ---- Calendar ---- */
+.calendar-grid-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.calendar-header-day {
+  font-size: 0.75rem;
+  color: #6c757d;
+  display: flex;
+  justify-content: center;
+}
+
+.calendar-day-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-day {
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.1s, color 0.1s;
+  font-weight: 500;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+.calendar-day:hover:not(.day-disabled):not(.day-selected) {
+  background-color: #e5e7eb;
+}
+
+.day-selected {
+  background-color: #4f46e5;
+  color: white;
+  font-weight: bold;
+}
+
+.day-disabled {
+  color: #d1d5db;
+  cursor: not-allowed;
+  background-color: transparent !important;
+}
+
+.day-disabled:hover {
+  background-color: transparent !important;
+}
+
+/* ---- Calendar Popovers ---- */
+#add-calendar-popover,
+#auto-calendar-popover {
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  z-index: 1050;
+  position: fixed;
+  left: 50%;
+  bottom: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+#add-time-picker-widget {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  z-index: 1050;
+  position: fixed;
+  left: 50%;
+  top: 45%;
+  transform: translateX(-50%);
+  width: 280px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+/* ---- Auto Plan List ---- */
+.tab-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.list-group-item-ketidakhadiran {
+  border-radius: 0.5rem !important;
+  margin-bottom: 0.5rem;
+  border: none;
+  background-color: #e9ecef;
+  transition: background-color 0.2s;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-group-item-ketidakhadiran:hover {
+  background-color: #dee2e6;
+}
+
+/* ---- Status display ---- */
+.status-display {
+  width: 100%;
+}
+
+/* ---- Responsive ---- */
+@media screen and (max-width: 330px) {
+  .popup-panel {
+    padding: 1.5rem !important;
+  }
+  .time-column {
+    width: 65px;
+  }
+  .time-picker-input {
+    font-size: 1.2rem;
+  }
+}
