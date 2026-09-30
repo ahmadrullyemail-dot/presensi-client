@@ -2,8 +2,8 @@ const env = (import.meta as ImportMeta & {
   env?: Record<string, string | undefined>;
 }).env;
 
-const HMAC_SECRET = env?.VITE_HMAC_SECRET || 'ernmysql_hmac_secret_dev_2024_change_in_prod';
-const APP_ID = 'ernmysql-frontend';
+const HMAC_SECRET = env?.VITE_HMAC_SECRET;
+const APP_ID = env?.BACKEND_VITE_APP_ID;
 
 /**
  * hmacSign — Menghitung HMAC-SHA256 signature sesuai standar backend
