@@ -1,4 +1,4 @@
-# 🏢 Sistem Presensi Pegawai PertaMC (DWOWS-SPHR00660A)
+# 🏢 Sistem Presensi
 
 Aplikasi web presensi pegawai modern berbasis **React (Vite)** di sisi frontend dan dirancang untuk backend **Node.js (Express.js)** dengan database **MySQL**.
 
