@@ -1,5 +1,5 @@
 # 📋 API Contract & Spesifikasi Backend Node.js + MySQL
-### Aplikasi Presensi Pegawai PertaMC (DWOWS-SPHR00660A)
+### Aplikasi Presensi Pegawai Presensi (DWOWS-SPHR00660A)
 
 Dokumen ini berisi spesifikasi lengkap API Contract untuk pembuatan Backend **Node.js (Express.js)** dengan database **MySQL** yang terintegrasi dengan frontend React (Vite).
 
@@ -24,7 +24,7 @@ Frontend mengirimkan request ke endpoint tunggal `/api` dengan metode `GET` dan 
 - **`action`** (misal: `add`, `edit`, `auto`, `show`)
 
 > **Arsitektur Koneksi & Proxy:**
-> - **Development (Lokal)**: Request `/api` dari browser ditangani oleh Vite Proxy (`vite.config.js`), yang secara otomatis menyematkan header keamanan HMAC-SHA256 sebelum diteruskan ke backend target (`http://35.224.177.116:3100`).
+> - **Development (Lokal)**: Request `/api` dari browser ditangani oleh Vite Proxy (`vite.config.js`), yang secara otomatis menyematkan header keamanan HMAC-SHA256 sebelum diteruskan ke backend target (`http://localhost:3100`).
 > - **Production (Vercel)**: Request `/api` diproxy melalui Vercel Serverless Function (`api/index.js`) yang juga menyematkan header keamanan HMAC-SHA256 ke backend GCP/VPS.
 > - **Backend Target**: Dikonfigurasi melalui `VITE_API_BASE_URL` di file `.env`.
 
@@ -273,7 +273,7 @@ Dipanggil **setiap kali aplikasi dibuka** untuk memverifikasi UUID perangkat dan
       "cat": "Reguler",
       "pos": "DWOWS-SPHR00660A",
       "tel": "81234567890",
-      "ema": "ahmad.ramadhan@pertamc.com",
+      "ema": "ahmad.ramadhan@presensi.com",
       "cico": {
         "checkIn": "2026-09-23T07:58:12.000Z",
         "checkOut": null
@@ -643,7 +643,7 @@ Mengupdate nomor WhatsApp dan Email pegawai.
   | `mod` | `string` | Tetap bernilai `'updateAkun'` | `'updateAkun'` |
   | `uuid` | `string` | UUID perangkat | `'9b1deb4d-3b7d...'` |
   | `wa` | `string` | Nomor WhatsApp baru | `'08123456789'` |
-  | `email` | `string` | Email baru | `'pegawai@pertamc.com'` |
+  | `email` | `string` | Email baru | `'pegawai@presensi.com'` |
 
 - **Response JSON**:
   ```json
@@ -676,7 +676,7 @@ Mengambil data detail akun berdasarkan UUID.
     "cat": "Reguler",
     "pos": "DWOWS-SPHR00660A",
     "tel": "81234567890",
-    "ema": "ahmad.ramadhan@pertamc.com"
+    "ema": "ahmad.ramadhan@presensi.com"
   }
   ```
 
@@ -689,8 +689,8 @@ Berikut adalah struktur tabel MySQL yang mendukung seluruh fungsionalitas aplika
 > **⚠️ PENTING:** Tabel utama yang digunakan untuk login & binding adalah **`hr_employees`**, bukan nama lain. Pastikan nama tabel ini sesuai dengan yang ada di database produksi.
 
 ```sql
-CREATE DATABASE IF NOT EXISTS db_pertamc_presensi;
-USE db_pertamc_presensi;
+CREATE DATABASE IF NOT EXISTS db_presensi;
+USE db_presensi;
 
 -- ═══════════════════════════════════════════════════════════════
 -- 1. Tabel Master Pegawai: hr_employees
@@ -791,12 +791,12 @@ CREATE TABLE IF NOT EXISTS rencana_auto (
 
 -- Data Awal untuk Testing:
 INSERT INTO lokasi_kantor (kode_lokasi, nama_lokasi, latitude, longitude, radius_meter)
-VALUES ('DWOWS-SPHR00660A', 'Kantor DWOWS Pertamina Hulu Rokan', -6.20880000, 106.84560000, 200)
+VALUES ('DWOWS-SPHR00660A', 'Kantor Presensi Lapangan', -6.20880000, 106.84560000, 200)
 ON DUPLICATE KEY UPDATE kode_lokasi = kode_lokasi;
 
 -- Contoh pegawai: uuid = NULL berarti belum ada perangkat terdaftar
 INSERT INTO hr_employees (badge, uuid, nama, jabatan, kategori, posisi_kantor, no_wa, email)
-VALUES ('EMP-001', NULL, 'Ahmad Ramadhan', 'Staff Lapangan', 'Reguler', 'DWOWS-SPHR00660A', '081234567890', 'ahmad@pertamc.com')
+VALUES ('EMP-001', NULL, 'Ahmad Ramadhan', 'Staff Lapangan', 'Reguler', 'DWOWS-SPHR00660A', '081234567890', 'ahmad@presensi.com')
 ON DUPLICATE KEY UPDATE badge = badge;
 ```
 
@@ -846,7 +846,7 @@ const db = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'db_pertamc_presensi',
+  database: process.env.DB_NAME || 'db_presensi',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -1260,7 +1260,7 @@ app.listen(PORT, () => {
    DB_HOST=localhost
    DB_USER=root
    DB_PASSWORD=your_db_password
-   DB_NAME=db_pertamc_presensi
+   DB_NAME=db_presensi
 
    # Keamanan HMAC — harus sama persis dengan frontend
    BACKEND_APP_ID=ernmysql-frontend
@@ -1274,7 +1274,7 @@ app.listen(PORT, () => {
 1. **Buat/edit file `.env` di root folder frontend:**
    ```env
    # Target backend (GCP atau localhost)
-   VITE_API_BASE_URL=http://35.224.177.116:3100
+   VITE_API_BASE_URL=http://localhost:3100
 
    # Keamanan HMAC — harus sama persis dengan backend
    BACKEND_APP_ID=ernmysql-frontend
@@ -1293,7 +1293,7 @@ Tambahkan **Environment Variables** berikut di Vercel Dashboard → Project Sett
 
 | Variable | Value |
 | :--- | :--- |
-| `VITE_API_BASE_URL` | `http://35.224.177.116:3100` |
+| `VITE_API_BASE_URL` | `http://localhost:3100` |
 | `BACKEND_APP_ID` | `ernmysql-frontend` |
 | `BACKEND_HMAC_SECRET` | `(secret HMAC yang sama dengan backend)` |
 

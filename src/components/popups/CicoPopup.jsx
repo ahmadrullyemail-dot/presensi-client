@@ -18,9 +18,21 @@ export default function CicoPopup({
   loadingOut,
   onCheckIn,
   onCheckOut,
+  onClose,
 }) {
   return (
     <div id="cico-popup" className={`popup-panel ${show ? 'show' : ''}`}>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h6 className="fw-bold mb-0 text-muted">Rekam Presensi Masuk / Pulang</h6>
+        {onClose && (
+          <button
+            type="button"
+            className="btn-close"
+            aria-label="Tutup"
+            onClick={onClose}
+          />
+        )}
+      </div>
       <div className="row g-3">
         {/* Check-In */}
         <div className="col-6">

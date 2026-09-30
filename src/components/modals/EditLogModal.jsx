@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import ConfirmationModal from '../ConfirmationModal';
 import TimePicker from '../widgets/TimePicker';
 import { fileToBase64, formatIndonesianDate } from '../../utils/helpers';
@@ -20,6 +20,18 @@ export default function EditLogModal({ show, date, notes, onClose, onSave }) {
   const [imageFile, setImageFile] = useState(null);
   const [imgError,  setImgError]  = useState('');
   const [saving,    setSaving]    = useState(false);
+
+  useEffect(() => {
+    if (show && notes) {
+      const timePart = notes.split(' ')[1] || '';
+      const [h = '00', m = '00', s = '00'] = timePart.split(':');
+      setHour(h.padStart(2, '0'));
+      setMinute(m.padStart(2, '0'));
+      setSecond(s.padStart(2, '0'));
+      setImageFile(null);
+      setImgError('');
+    }
+  }, [show, notes]);
 
   function handleFileChange(e) {
     const file = e.target.files[0];

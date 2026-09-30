@@ -156,10 +156,10 @@ export default function BindingPage({ onBound, initialAlert = '' }) {
         <div className="text-center row">
           <div className="card shadow mb-2 col-12" style={{ backgroundColor: 'white' }}>
             <img
-              src="https://logo.png"
-              alt="Logo"
+              src="/logo-sample.svg"
+              alt="Logo Presensi"
               className="img-fluid mx-auto d-block"
-              style={{ maxWidth: 200 }}
+              style={{ maxWidth: 220, maxHeight: 80 }}
             />
           </div>
           <h5 className="mb-1 fw-bold">Form Absensi Pegawai</h5>
@@ -220,6 +220,23 @@ export default function BindingPage({ onBound, initialAlert = '' }) {
                   Proses...
                 </>
               ) : 'Binding'}
+            </button>
+          </div>
+
+          {/* Tombol Demo / Preview */}
+          <div className="mx-3 mb-2 text-center">
+            <hr className="my-2" />
+            <small className="text-muted d-block mb-2">Belum punya akun? Coba tampilan demo</small>
+            <button
+              type="button"
+              id="demo-mode-btn"
+              className="btn btn-outline-secondary btn-sm rounded-pill px-4"
+              onClick={() => {
+                localStorage.setItem('uuid', 'DEMO');
+                onBound('DEMO');
+              }}
+            >
+              🔍 Lihat Demo
             </button>
           </div>
         </div>

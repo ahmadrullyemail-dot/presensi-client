@@ -5,7 +5,7 @@
  *  show          – boolean
  *  onKetidakhadiran(type) – fn called with 'Cuti'|'Izin'|'Sakit'|'Off'
  */
-export default function IzinPopup({ show, onKetidakhadiran }) {
+export default function IzinPopup({ show, onKetidakhadiran, onClose }) {
   const items = [
     { type: 'Cuti',  icon: 'beach_access',       label: 'Cuti' },
     { type: 'Izin',  icon: 'assignment_turned_in', label: 'Izin' },
@@ -15,7 +15,17 @@ export default function IzinPopup({ show, onKetidakhadiran }) {
 
   return (
     <div id="izin-popup" className={`popup-panel ${show ? 'show' : ''}`}>
-      <h5 className="fw-bold mb-3">Pengajuan Ketidakhadiran</h5>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h5 className="fw-bold mb-0">Pengajuan Ketidakhadiran</h5>
+        {onClose && (
+          <button
+            type="button"
+            className="btn-close"
+            aria-label="Tutup"
+            onClick={onClose}
+          />
+        )}
+      </div>
       <div className="row g-3">
         {items.map(({ type, icon, label }) => (
           <div className="col-3" key={type}>

@@ -36,10 +36,10 @@ export default function MainBoard({ akunNama, akunPosition, alert, setAlert, tod
       <div className="text-center row">
         <div className="card shadow mb-2 col-12" style={{ backgroundColor: 'white' }}>
           <img
-            src="https://logo.png"
-            alt="Logo"
+            src="/logo-sample.svg"
+            alt="Logo Presensi"
             className="img-fluid mx-auto d-block"
-            style={{ maxWidth: 200 }}
+            style={{ maxWidth: 220, maxHeight: 80 }}
           />
         </div>
         <h5 className="mb-1 fw-bold">Form Absensi Pegawai</h5>

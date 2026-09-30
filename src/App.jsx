@@ -23,6 +23,7 @@ import ShowAutoModal from './components/modals/ShowAutoModal';
 import * as api from './api/api';
 import { getPosition, getDeviceInfo, isMobile } from './utils/helpers';
 import { downloadPresensiPDF } from './utils/pdfGenerator';
+import { DEMO_UUID, mockUserAgent, mockADay, mockAMonth } from './mockData';
 
 export default function App() {
   // ── Routing: 'checking' | 'binding' | 'main' ────────────────────────────────
@@ -99,6 +100,20 @@ export default function App() {
     const uuid = currentUuid || localStorage.getItem('uuid');
     if (!uuid) return;
     setTodayStatus(prev => ({ ...prev, loading: true }));
+
+    // ── DEMO MODE ────────────────────────────────────────────────────────────
+    if (uuid === DEMO_UUID) {
+      const dataArr = mockADay.data;
+      let inTime = '-', outTime = '-';
+      for (let i = 0; i < dataArr.length; i += 4) {
+        if (dataArr[i + 1] === 'Masuk') inTime = dataArr[i + 2];
+        if (dataArr[i + 1] === 'Pulang') outTime = dataArr[i + 2];
+      }
+      setTodayStatus({ loading: false, data: dataArr });
+      setCico(prev => ({ ...prev, checkIn: inTime, checkOut: outTime }));
+      return;
+    }
+
     try {
       const res = await api.getADay(uuid);
       if (res && res.status === 'login_required') {
@@ -154,6 +169,25 @@ export default function App() {
     }
 
     async function initUser() {
+      // ── DEMO MODE: bypass semua API ─────────────────────────────────────────
+      if (uuid === DEMO_UUID) {
+        const res = mockUserAgent;
+        setAkun({
+          nama: res.nama,
+          id: res.id,
+          job: res.job,
+          cat: res.cat,
+          pos: res.pos,
+          tel: res.tel,
+          ema: res.ema,
+        });
+        setCico({ checkIn: '-', checkOut: '-', loadingIn: false, loadingOut: false });
+        setPage('main');
+        fetchTodayStatus(uuid);
+        setInitialLoading(false);
+        return;
+      }
+
       let lat = 0, lon = 0, acc = 1000;
       try {
         const pos = await getPosition();
@@ -222,6 +256,20 @@ export default function App() {
     const uuid = localStorage.getItem('uuid');
     if (!uuid) return;
     setLogLoading(true);
+
+    // ── DEMO MODE ────────────────────────────────────────────────────────────
+    if (uuid === DEMO_UUID) {
+      const logData = mockAMonth.data[Object.keys(mockAMonth.data)[0]];
+      setLogs({
+        log: logData.log || [],
+        pending: logData.pending || [],
+        reject: logData.reject || [],
+        INFO: logData.INFO || [],
+      });
+      setLogLoading(false);
+      return;
+    }
+
     const now = new Date();
     try {
       const res = await api.getAMonth(uuid, now.getMonth(), now.getFullYear(), 'full');
@@ -604,6 +652,24 @@ export default function App() {
         onDeleteLog={handleDeleteTodayLog}
       />
 
+      {/* Popup Backdrop */}
+      {activePopup && (
+        <div
+          className="popup-backdrop"
+          onClick={closeAllPopups}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.35)',
+            zIndex: 1005,
+            backdropFilter: 'blur(1px)',
+          }}
+        />
+      )}
+
       {/* Popups */}
       <CicoPopup
         show={activePopup === 'cico'}
@@ -613,11 +679,13 @@ export default function App() {
         loadingOut={cico.loadingOut}
         onCheckIn={() => handlePresensiAction('Check-In')}
         onCheckOut={() => handlePresensiAction('Check-Out')}
+        onClose={closeAllPopups}
       />
 
       <IzinPopup
         show={activePopup === 'izin'}
         onKetidakhadiran={handleOpenKetidakhadiran}
+        onClose={closeAllPopups}
       />
 
       <LogPopup
@@ -636,18 +704,21 @@ export default function App() {
           setShowAddLogModal(true);
         }}
         onDownload={handleDownloadPDF}
+        onClose={closeAllPopups}
       />
 
       <PlanPopup
         show={activePopup === 'plan'}
         onShow={handleShowAuto}
         onPlan={handleOpenPlanAuto}
+        onClose={closeAllPopups}
       />
 
       <AkunPopup
         show={activePopup === 'akun'}
         akun={akun}
         onUpdate={handleUpdateAkun}
+        onClose={closeAllPopups}
       />
 
       {/* Bottom Navigation */}
@@ -680,6 +751,7 @@ export default function App() {
       />
 
       <EditLogModal
+        key={`${editLogModal.date}-${editLogModal.notes}`}
         show={editLogModal.show}
         date={editLogModal.date}
         notes={editLogModal.notes}
