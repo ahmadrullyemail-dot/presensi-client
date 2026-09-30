@@ -36,14 +36,14 @@ export default function MainBoard({ akunNama, akunPosition, alert, setAlert, tod
       <div className="text-center row">
         <div className="card shadow mb-2 col-12" style={{ backgroundColor: 'white' }}>
           <img
-            src="https://pertamc.com/cfind/source/thumb/images/cover_w216_h60_tw10150_th2819_x1479_y1178_sample-logo-pertamc--5.png"
-            alt="PertaMC Logo"
+            src="https://logo.png"
+            alt="Logo"
             className="img-fluid mx-auto d-block"
             style={{ maxWidth: 200 }}
           />
         </div>
-        <h5 className="mb-1 fw-bold">Form Absensi Pegawai PertaMC</h5>
-        <h6 className="mb-1 small text-muted">DWOWS-SPHR00660A</h6>
+        <h5 className="mb-1 fw-bold">Form Absensi Pegawai</h5>
+        <h6 className="mb-1 small text-muted">main</h6>
         <hr />
         <p className="text-medium">
           Selamat datang, <span className="fw-bold" id="welcome">{akunNama}</span>
