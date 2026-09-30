@@ -8,7 +8,7 @@ export const config = {
 
 /**
  * Vercel Serverless Function Proxy
- * Menghubungkan Frontend Vercel ke Backend 35.224.177.116:3100
+ * Menghubungkan Frontend Vercel ke Backend localhost:3100
  * serta menyematkan header keamanan X-App-ID, X-Timestamp, dan X-Signature (HMAC-SHA256).
  */
 export default async function handler(req, res) {
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     const rawBody = Buffer.concat(chunks).toString('utf8');
 
     // 2. Ambil konfigurasi backend dari Environment Variables Vercel atau default fallback
-    const backendTarget = process.env.VITE_API_BASE_URL || 'http://35.224.177.116:3100';
+    const backendTarget = process.env.VITE_API_BASE_URL || 'http://localhost:3100';
     const appId = req.headers['x-app-id'] || process.env.BACKEND_APP_ID || 'ernmysql-frontend';
     const secret = process.env.VITE_HMAC_SECRET || process.env.BACKEND_HMAC_SECRET || 'ernmysql_hmac_secret_dev_2024_change_in_prod';
 
@@ -72,7 +72,7 @@ export default async function handler(req, res) {
   } catch (err) {
     console.error('[Vercel HMAC Proxy Error]:', err.message);
     return res.status(502).json({
-      error: 'Proxy gagal menghubungi backend 35.224.177.116:3100: ' + err.message,
+      error: 'Proxy gagal menghubungi backend localhost:3100: ' + err.message,
     });
   }
 }
